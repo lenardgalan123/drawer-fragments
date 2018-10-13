@@ -75,12 +75,12 @@ public class pickers_class extends Fragment implements View.OnClickListener {
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
         }
-        public static String time;
+
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
             EditText editText = (EditText) getActivity().findViewById(R.id.time_editText);
             //editText.setText(time);
-            time = "";
+            String time = "";
 
             if(hourOfDay > 12){
                 editText.setText((hourOfDay - 12) + ":" + minute + " PM");
