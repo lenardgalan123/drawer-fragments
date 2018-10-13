@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -74,31 +75,30 @@ public class pickers_class extends Fragment implements View.OnClickListener {
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
         }
-
+        public static String time;
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
-            String time = "";
+            EditText editText = (EditText) getActivity().findViewById(R.id.time_editText);
+            //editText.setText(time);
+            time = "";
 
             if(hourOfDay > 12){
-                time = (hourOfDay - 12) + ":" + minute + " PM";
+                editText.setText((hourOfDay - 12) + ":" + minute + " PM");
+                //time = (hourOfDay - 12) + ":" + minute + " PM";
             } else if(hourOfDay == 12){
-                time = hourOfDay + ":" + minute + " PM";
+                editText.setText(hourOfDay + ":" + minute + " PM");
+                //time = hourOfDay + ":" + minute + " PM";
             } else if(hourOfDay == 0){
-                time = "12:" + minute + " AM";
+                editText.setText("12:" + minute + " AM");
+                //time = "12:" + minute + " AM";
             } else {
-                time = hourOfDay + ":" + minute + " AM";
+                editText.setText(hourOfDay + ":" + minute + " AM");
+                //time = hourOfDay + ":" + minute + " AM";
             }
 
-            Toast.makeText(getActivity(), time, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), time, Toast.LENGTH_SHORT).show();
+
         }
-        /**public void sendmessage(View view){
-            Intent intent = new Intent();
-            String message = getActivity().toString();
-            intent.putExtra(Intent.EXTRA_COMPONENT_NAME, message);
-            startActivity(intent);
-            //EditText editText = new EditText(super.getContext());
-            //EditText.
-        }**/
     }
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
@@ -117,9 +117,11 @@ public class pickers_class extends Fragment implements View.OnClickListener {
 
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            EditText editText = (EditText) getActivity().findViewById(R.id.date_editText);
             // Do something with the date chosen by the user
             month += 1; // increment month since month starts with 0
-            Toast.makeText(getActivity(), year+"-"+month+"-"+dayOfMonth, Toast.LENGTH_SHORT).show();
+            editText.setText(year+"-"+month+"-"+dayOfMonth);
+            //Toast.makeText(getActivity(), year+"-"+month+"-"+dayOfMonth, Toast.LENGTH_SHORT).show();
         }
     }
 }
