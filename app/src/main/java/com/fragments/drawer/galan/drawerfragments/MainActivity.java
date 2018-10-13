@@ -1,9 +1,9 @@
 package com.fragments.drawer.galan.drawerfragments;
-
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,32 +17,36 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout drawer;
-    private textfield_class textfieldClass = new textfield_class();
+    pickers_class pickers = new pickers_class();
+    textfield_class textfield = new textfield_class();
+    toggles_class toggles = new toggles_class();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ;
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        // This will mark the a selected item
-        navigationView.setCheckedItem(R.id.nav_camera);
-        onNavigationItemSelected(navigationView.getMenu().getItem(0));
-        // setting of listener for drawer
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -77,25 +81,18 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
-        switch (id){
-            case R.id.nav_camera:
-                transaction.replace(R.id.textfield_container, textfieldClass);
-                transaction.commit();
-                break;
 
-            case R.id.nav_gallery:
-                transaction.replace(R.id.textfield_container, textfieldClass);
-                transaction.commit();
-                break;
-
-            case R.id.nav_slideshow:
-                transaction.replace(R.id.textfield_container, textfieldClass);
-                transaction.commit();
-                break;
+        if (id == R.id.nav_camera) {
+            fragmentManager.beginTransaction().replace(R.id.frame_cont, textfield).commit();
+        } else if (id == R.id.nav_gallery) {
+            fragmentManager.beginTransaction().replace(R.id.frame_cont, pickers).commit();
+        } else if (id == R.id.nav_slideshow) {
+            fragmentManager.beginTransaction().replace(R.id.frame_cont, toggles).commit();
         }
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
